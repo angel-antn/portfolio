@@ -9,4 +9,5 @@ export interface Experience {
   links: { [id: string]: string };
   imageUrl: string;
   bgColor: string;
+  isVisible: boolean;
 }

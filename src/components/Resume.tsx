@@ -12,7 +12,7 @@ export const Resume = () => {
     <div className="text-white flex flex-col-reverse lg:flex-row gap-5 items-center justify-center mt-6 lg:mt-10">
       <div className="w-3/4 lg:w-2/5 flex justify-center items-center flex-col gap-3">
         <Lottie className="" animationData={foxLottie} loop={true} />
-        <button className="px-16 py-3 bg-primary_color hover:bg-primary_color_hover transition-all ease-in rounded-xl flex gap-3 font-semibold justify-center items-center">
+        <button className="px-16 py-3 bg-primary_color hover:bg-primary_color_hover transition-all ease-in rounded-xl flex gap-3 font-semibold justify-center items-center shadow-lg">
           <img src={downloadIcon} /> {t("downloadCV")}
         </button>
       </div>

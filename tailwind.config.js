@@ -13,6 +13,7 @@ export default {
       },
       backgroundColor: {
         primary_color: "#ac3f5e",
+        secondary_color: "#32223b",
         primary_color_hover: "#972a49",
       },
     },

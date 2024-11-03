@@ -8,6 +8,9 @@ import { usePortfolioStore } from "./store/portfolioStore";
 import { LoadingPage } from "./components/LoadingPage";
 import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Skills } from "./components/Skills";
+import { RecentProjects } from "./components/RecentProjects";
+import { Contact } from "./components/Contact";
 
 function App() {
   const { initStore } = usePortfolio();
@@ -33,7 +36,10 @@ function App() {
           <HeroParallaxBanner />
           <div className="mx-auto max-w-[90%] md:max-w-[70%] flex flex-col justify-center items-center">
             <Resume />
+            <Skills />
             <ExperienceTimeLine />
+            <RecentProjects />
+            <Contact />
           </div>
         </>
       )}

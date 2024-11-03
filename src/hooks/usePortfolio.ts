@@ -1,11 +1,17 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { firestore, storage } from "../firebase/firebase";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { toast } from "react-toastify";
 import { Experience } from "../interfaces/Experience";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export const usePortfolio = () => {
   const { setPortfolioData } = usePortfolioStore();
+
+  const getImageFromStorage = async (location: string) => {
+    const imageUrl = await getDownloadURL(ref(storage, location));
+    return await imageUrl;
+  };
 
   const initStore = async () => {
     const profile: { [id: string]: unknown } = {};
@@ -29,6 +35,7 @@ export const usePortfolio = () => {
     //experience
     const experienceQuery = query(
       collection(firestore, "Experience"),
+      where("isVisible", "==", true),
       orderBy("startDate", "asc")
     );
     const experienceQuerySnapshot = await getDocs(experienceQuery);
@@ -48,5 +55,5 @@ export const usePortfolio = () => {
     setPortfolioData(profile, experience);
   };
 
-  return { initStore };
+  return { initStore, getImageFromStorage };
 };

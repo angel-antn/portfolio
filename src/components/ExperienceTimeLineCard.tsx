@@ -4,6 +4,9 @@ import { getDateAsString } from "../utils/getDateAsString";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { Tags } from "./Tags";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { usePortfolio } from "../hooks/usePortfolio";
+import spinner from "../assets/spinner.svg";
 
 interface ExperienceTimeLineCardProps {
   experience: Experience;
@@ -14,8 +17,20 @@ export const ExperienceTimeLineCard = ({
 }: ExperienceTimeLineCardProps) => {
   const { locale } = usePortfolioStore();
   const { t } = useTranslation();
+  const { getImageFromStorage } = usePortfolio();
 
-  console.log(experience);
+  const [image, setImage] = useState<string>();
+
+  useEffect(() => {
+    let wasUnmounted = false;
+    getImageFromStorage(experience.imageUrl).then((image) => {
+      if (wasUnmounted) return;
+      setImage(image);
+    });
+    return () => {
+      wasUnmounted = true;
+    };
+  }, []);
 
   return (
     <VerticalTimelineElement
@@ -24,8 +39,11 @@ export const ExperienceTimeLineCard = ({
         background: experience.isHighlighted ? "#ac3f5e" : "#32223b",
         color: "#fff",
       }}
-      contentArrowStyle={{ borderRight: "7px solid #32223b" }}
-      iconClassName="rounded-full"
+      contentArrowStyle={{
+        borderRight: `7px solid ${
+          experience.isHighlighted ? "#ac3f5e" : "#32223b"
+        }`,
+      }}
       date={
         experience.isHighlighted
           ? getDateAsString(
@@ -35,10 +53,11 @@ export const ExperienceTimeLineCard = ({
             )
           : undefined
       }
+      iconStyle={{ backgroundColor: experience.bgColor }}
       icon={
         <img
-          className="rounded-full"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT68-Xe224AWCGkDp7owND2JBGkV8l8KrPdqg&s"
+          className="w-full h-full flex items-center justify-center p-1 lg:p-3"
+          src={image ? image : spinner}
         />
       }
     >
